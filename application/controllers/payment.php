@@ -128,7 +128,6 @@ class payment extends CI_Controller {
 		
 		if ($this->form_validation->run() !== FALSE) {
 			$payment = $this->Payment_model->setPaymentFromPostData($_POST);
-			$this->Payment_model->update($paymentId, $payment);
 			if ($_POST['status']==3 && $_POST['previousStatus']!=3 ) {     //validation
 			    //modifier le debit du mois de paiment
 			    $cost['user_id'] = $payment["user_id"];
@@ -137,13 +136,11 @@ class payment extends CI_Controller {
 			    list($year, $month, $day) = explode("-", $cost['month_paided']);
 			    $bill = $this->Resa_model->getResaSummary($year, $month, $payment['user_id']);
 			    //Get month paid debt
-			    $DBCost = current($this->Cost_model->get_cost_where(array('user_id' => $payment["user_id"], 'month_paided' => $payment['month_paided'] )));
+			    $DBcost = $this->Payment_model->getLastValidDebt($payment["user_id"], $year, $month);
 			    if($DBCost) {
-			        $cost['debt'] = round(($DBCost["debt"] + $bill['sum']['total'] - $payment["amount"]),2);
-			        $this->Cost_model->update($DBCost["id"], $cost);
+			        $payment["dette"] = round(($DBcost["dette"] + $bill['sum']['total'] - $payment["amount"]),2);
 			    } else {
-			        $cost['debt'] = round(($bill['sum']['total']  - $payment["amount"]),2);
-			        $this->Cost_model->create($cost);
+			        $payment["dette"] = round(($bill['sum']['total']  - $payment["amount"]),2);
 			    }
 			}
 			if ($_POST['status']==4 && $_POST['previousStatus']==3 ) {     //annulation
@@ -152,12 +149,12 @@ class payment extends CI_Controller {
 			    list($year, $month, $day) = explode("-", $payment['month_paided']);
 			    $bill = $this->Resa_model->getResaSummary($year, $month, $payment['user_id']);
 			    //Get current month debt
-			    $DBCost = current($this->Cost_model->get_cost_where(array('user_id' => $payment["user_id"], 'month_paided' => $payment['payment_date'] )));
+			    $DBcost = $this->Payment_model->getLastValidDebt($payment["user_id"], $year, $month);
 			    if($DBCost) {
-			        $DBCost['debt'] = round(($DBCost["debt"] + $bill['sum']['total'] + $payment["amount"]),2);
-			        $this->Cost_model->update($DBCost["id"], $DBCost);
+			        $payment["dette"]  = round(($DBcost["dette"] + $bill['sum']['total'] + $payment["amount"]),2);
 			    }
 			}
+			$this->Payment_model->update($paymentId, $payment);
 		}
 
 		if ( sizeof($_POST)==0 ) {

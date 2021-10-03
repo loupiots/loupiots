@@ -9,7 +9,6 @@ class Resa_model extends CI_Model {
 	public function __construct() {
 		$this->load->database();
 		$this->load->model('Period_model');
-		$this->load->model('Payment_model');
 	}
 		
 	/**
@@ -173,6 +172,7 @@ class Resa_model extends CI_Model {
 	        $cost['sum']['depassement'] += $totalDepas;
 	    }
 	    $cost['sum']['total'] = $cost['sum']['resa'] + $cost['sum']['depassement'];
+		
 	    return  $cost;
 	}
 	

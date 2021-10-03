@@ -7,6 +7,7 @@ class Payment_model extends CI_Model {
 
 	public function __construct() {
 	    $this->load->database();
+		$this->load->model('Resa_model');
 	}
 		
 	function create($payment) {
@@ -72,6 +73,7 @@ class Payment_model extends CI_Model {
 	}
 	
 	// Util function /////////////////////////////////////
+	
 	function setPaymentFromPostData($post) {
 		$payment["user_id"] = $post['user_id'];
 		$payment["amount"] = strtr($post['amount'], ",", ".");
@@ -98,6 +100,42 @@ class Payment_model extends CI_Model {
 		}		
 		return $payment;
 	}
+	/*
+	 * get last valid payment dette and month
+	*/
+	public function getLastValidDebt($userId, $year=null, $month=null) {
+		if (!$year) $year=date("Y");
+		if (!$month) $month=date("n");
+		$monthlyDebt=array();
+		$total=0;
+		
+        for ($i = $month; $i >= ($month-13); $i--) {
+            if ($i>=1) {
+                $curMonth=$i;
+				$curYear=$year;
+            } else {
+                $curMonth=12+$i;
+                $curYear=$year-1;
+            }
+			$where = array('user_id'=>$userId, 'status' => 3, 'YEAR(month_paided)' => $curYear, 'MONTH(month_paided)' => $curMonth);
+			$payment=$this->get_payment_where($where);
+			if ($payment) {
+				//print_r($payment);
+				$total+=$payment[0]["dette"];
+				$ret=array('dette' => $payment[0]["dette"], 'total' => $total, 'monthlyDebt' => $monthlyDebt);
+				//print_r($ret);
+				return $ret;
+			} else {
+				$cost = $this->Resa_model->getResaSummary($curYear, $curMonth, $userId);
+				//print_r($i);
+				//print_r($cost['sum']);
+				$monthlyDebt[] = $cost['sum']['total'];
+				$total += $cost['sum']['total'];
+			}
+		}
+		return null;
+	}
+
 	
 }
 ?>

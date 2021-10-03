@@ -3,6 +3,7 @@
 </div>
 
 <?php
+/*
 $lastCloseFileName = "lastVisit.txt";
 if (!file_exists($lastCloseFileName)) {
 	touch($lastCloseFileName);
@@ -51,7 +52,7 @@ if ($now > $nextBalanceDate) {
 //    $cost = $this->Cost_model->setBalance($lastBalanceDate);
     
 //    print_r($cost);
-}
+}*/
 /*
 $date[] = array("year" => "2021","month"=> "4");
 $date[] = array("year" => "2021","month"=> "5");

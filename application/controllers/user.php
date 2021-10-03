@@ -120,10 +120,11 @@ class user extends CI_Controller {
 		if (!isset($year) && !isset($month)) {
 			$year = $this->input->post('year');
 			$month = $this->input->post('month');
+			// jmo: display current month and not next month 
+			// user wants to see in the first page, the ongoing calendar and required payment
 			if ($month=="" || $year=="") {
-				$nextMonth = mktime(0, 0, 0, date("m")+1, date("d"), date("Y"));
-				$year=date("Y", $nextMonth);
-				$month=date("n", $nextMonth);
+				$year=date("Y");
+				$month=date("n");
 			}
 		}
 		setlocale(LC_ALL, 'fr_FR','fra');
@@ -138,36 +139,28 @@ class user extends CI_Controller {
 		$data['getData']['month-1Str']=strftime("%B", mktime(0, 0, 0, $month-1, 10, $year));
 		$data['getData']['month-2Str']=strftime("%B", mktime(0, 0, 0, $month-2, 10, $year));
 		$data['getData']['user_id']=$data['userId'];
-		
-		$data['usersOption'] = $this->User_model->get_option_users();
-		
 		//data for previous month resa
 		$prevDate = strtotime( $year."-".($month-1)."-01" );
 		$prevMonth = date("m", $prevDate);
 		$prevYear = date("Y", $prevDate);
-		$data['bill'] = $this->Resa_model->getResaSummary($prevYear, $prevMonth, $data['userId']); 
-		$DBCostPrev = current($this->Cost_model->get_cost_where(array('user_id' => $data['userId'], 'YEAR(month_paided)' => $prevYear, 'MONTH(month_paided)' => $prevMonth )));
-		if($DBCostPrev) {
-		    $data['bill']['restToPay'] = $DBCostPrev["debt"];
-		} else {
-		    $data['bill']['restToPay'] = 0;
-		}
-		$data['bill']['sum']['total'] = $data['bill']['sum']['resa'] + $data['bill']['sum']['depassement'] + $data['bill']['restToPay'];
-		
-		//data for 2 months ago debt
 		$prevDate2 = strtotime( $year."-".($month-2)."-01" );
 		$prevMonth2 = date("m", $prevDate2);
 		$prevYear2 = date("Y", $prevDate2);
-		$DBCostPrev2 = current($this->Cost_model->get_cost_where(array('user_id' => $data['userId'], 'YEAR(month_paided)' => $prevYear2, 'MONTH(month_paided)' => $prevMonth2 )));
-		if($DBCostPrev2) {
-		    $data['bill']['restToPay2'] = $DBCostPrev2["debt"];
-		} else {
-		    $data['bill']['restToPay2'] = 0;
-		}
-		$data['bill']['sum']['total'] = $data['bill']['sum']['resa'] + $data['bill']['sum']['depassement'] + $data['bill']['restToPay2'];
 		
+		$data['usersOption'] = $this->User_model->get_option_users();
+		$data['bill'] = $this->Resa_model->getResaSummary($year, $month, $data['userId']);
+		$data['bill']['restToPay'] = $this->Payment_model->getLastValidDebt($data['userId'], $prevYear, $prevMonth)["total"];
+
+		// print_r($data['bill']['restToPay']);
+		$data['bill']['sum']['total'] = $data['bill']['sum']['resa'] + $data['bill']['sum']['depassement'] + $data['bill']['restToPay'];
+		
+		$data['bill'] = $this->Resa_model->getResaSummary($prevYear, $prevMonth, $data['userId']); 	
+		$data['bill']['restToPay2'] = $this->Payment_model->getLastValidDebt($data['userId'], $prevYear2, $prevMonth2)["total"];
+
+		$data['bill']['sum']['total'] = $data['bill']['sum']['resa'] + $data['bill']['sum']['depassement'] + $data['bill']['restToPay2'];
+
 		//Data for facture and payment
-		$data['payment'] = $this->Payment_model->get_payment_where(array('user_id' => $data['userId'], 'YEAR(month_paided)' => $prevYear, 'MONTH(month_paided)' => $prevMonth ));
+		$data['payment'] = $this->Payment_model->get_payment_where(array('user_id' => $data['userId'], 'YEAR(month_paided)' => $year, 'MONTH(month_paided)' => $month ));
 		
 		$this->load->view('templates/header', $data);
 		$this->load->view('user/viewUser', $data);
