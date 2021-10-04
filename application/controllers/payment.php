@@ -138,9 +138,9 @@ class payment extends CI_Controller {
 			    //Get month paid debt
 			    $DBcost = $this->Payment_model->getLastValidDebt($payment["user_id"], $year, $month);
 			    if($DBCost) {
-			        $payment["dette"] = round(($DBcost["dette"] + $bill['sum']['total'] - $payment["amount"]),2);
+			        $payment["debt"] = round(($DBcost["debt"] + $bill['sum']['total'] - $payment["amount"]),2);
 			    } else {
-			        $payment["dette"] = round(($bill['sum']['total']  - $payment["amount"]),2);
+			        $payment["debt"] = round(($bill['sum']['total']  - $payment["amount"]),2);
 			    }
 			}
 			if ($_POST['status']==4 && $_POST['previousStatus']==3 ) {     //annulation
@@ -151,7 +151,7 @@ class payment extends CI_Controller {
 			    //Get current month debt
 			    $DBcost = $this->Payment_model->getLastValidDebt($payment["user_id"], $year, $month);
 			    if($DBCost) {
-			        $payment["dette"]  = round(($DBcost["dette"] + $bill['sum']['total'] + $payment["amount"]),2);
+			        $payment["debt"]  = round(($DBcost["debt"] + $bill['sum']['total'] + $payment["amount"]),2);
 			    }
 			}
 			$this->Payment_model->update($paymentId, $payment);
@@ -210,22 +210,13 @@ class payment extends CI_Controller {
 		    $prevDate = strtotime( $year."-".($month-1)."-01" );
 		    $prevMonth = date("m", $prevDate);
 		    $prevYear = date("Y", $prevDate);
-		    $DBCostPrev = current($this->Cost_model->get_cost_where(array('user_id' => $userId, 'YEAR(month_paided)' => $prevYear, 'MONTH(month_paided)' => $prevMonth )));
-		    if($DBCostPrev) {
-		        $data['costTotal'][$userId]['debtPrev'] = $DBCostPrev["debt"];
-		    } else {
-		        $data['costTotal'][$userId]['debtPrev'] = 0;
-		    }
+			$data['costTotal'][$userId]['debtPrev'] = $this->Payment_model->getLastValidDebt($userId, $prevYear, $prevMonth)['total'];
 
 		    $DBCost = current($this->Cost_model->get_cost_where(array('user_id' => $userId, 'YEAR(month_paided)' => $year, 'MONTH(month_paided)' => $month )));
-		    if($DBCostPrev) {
-		        $data['costTotal'][$userId]['debt'] = $DBCost["debt"];
-		    } else {
-		        $data['costTotal'][$userId]['debt'] = 0;
-		    }
+			$data['costTotal'][$userId]['debt'] = $this->Payment_model->getLastValidDebt($userId, $year, $month);
 		    
 		    $where = array('user_id'=>$userId, 'YEAR(month_paided)' => $year, 'MONTH(month_paided)' => $month);
-		    $data["payments"][$userId] = $this->Payment_model->get_payment_where($where);		    		    
+		    $data["payments"][$userId] = $this->Payment_model->get_payment_where($where);
 		    if (sizeof($data["payments"][$userId])==0) {
 				$data["payments"][$userId][0]["status"]="-";
 				$data["payments"][$userId][0]["amount"]="-";

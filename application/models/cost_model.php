@@ -83,13 +83,7 @@ class Cost_model extends CI_Model {
 	        $resa = $this->Resa_model->getResaSummary($year, $month, $user['id']);
 	        
 	        //Get last month debt
-	        $DBCostPrev = current($this->Cost_model->get_cost_where(array('user_id' => $user['id'], 'YEAR(month_paided)' => $prevYear, 'MONTH(month_paided)' => $prevMonth )));
-	        if($DBCostPrev) {
-	            $previousDebt = $DBCostPrev["debt"];
-	        } else {
-	            $previousDebt = 0;
-	        }
-	        
+			$previousDebt= $this->Payment_model->getLastValidDebt($user['id'], $prevYear, $prevMonth)["total"];    
 	        $cost[$userId]['debt'] = round(($previousDebt + $resa['sum']['total'] - $cost[$userId]['paid']),2);
 	        
 	        //Store cost in DB

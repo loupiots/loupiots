@@ -318,7 +318,7 @@ class report extends CI_Controller {
         
         $curYear=$year;
 		$lastPayment=null;
-		$lastDette=0;
+		$lastDebt=0;
 		$lastMonthPaid=$month;
         for ($i = $month; $i >= ($month-13); $i--) {
             if ($i>=1) {
@@ -332,20 +332,6 @@ class report extends CI_Controller {
             $data['dates'][$i]['year'] = date("Y", $curDate);
             $where = array('user_id'=>$data['userId'], 'YEAR(month_paided)' => $curYear, 'MONTH(month_paided)' => $curMonth);
             $data['dates'][$i]['payments'] = $this->Payment_model->get_payment_where($where);
-			// get last payment
-			if (!$lastPayment) {
-				if (count($data['dates'][$i]['payments'])) {
-				
-					if ($data['dates'][$i]['payments'][0]['status'] == 3) {
-						$lastPayment=$data['dates'][$i]['payments'];
-						//print_r($lastPayment);        print("<br>");
-						$lastDette=$data['dates'][$i]['payments'][0]['dette'];
-						$lastMonthPaid=$i;
-						//print_r($lastMonthPaid);        print("<br>");
-						//print_r($lastDette);        print("<br>");
-					}
-				}
-			}
             $data['dates'][$i]['monthlyStatus'] = $this->Resa_model->getResaSummary($curYear, $curMonth, $data['userId']);
             //print_r($data['dates'][$i]['monthlyStatus']);        print("<br>");
 			

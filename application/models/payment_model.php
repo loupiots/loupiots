@@ -101,7 +101,7 @@ class Payment_model extends CI_Model {
 		return $payment;
 	}
 	/*
-	 * get last valid payment dette and month
+	 * get last valid payment debt and month
 	*/
 	public function getLastValidDebt($userId, $year=null, $month=null) {
 		if (!$year) $year=date("Y");
@@ -121,8 +121,8 @@ class Payment_model extends CI_Model {
 			$payment=$this->get_payment_where($where);
 			if ($payment) {
 				//print_r($payment);
-				$total+=$payment[0]["dette"];
-				$ret=array('dette' => $payment[0]["dette"], 'total' => $total, 'monthlyDebt' => $monthlyDebt);
+				$total+=$payment[0]["debt"];
+				$ret=array('debt' => $payment[0]["debt"], 'total' => $total, 'monthlyDebt' => $monthlyDebt);
 				//print_r($ret);
 				return $ret;
 			} else {
