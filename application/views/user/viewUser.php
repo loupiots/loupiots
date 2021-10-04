@@ -132,8 +132,8 @@
 						<tr>
 							<td>".$child['name']."</td>
 							<td>&nbsp;-</td>
-                            <td>".$bill['children'][$childNum]['resaStr']."</td>
-							<td>".$bill['children'][$childNum]['depassementStr']."</td>
+                            <td>".$bill2['children'][$childNum]['resaStr']."</td>
+							<td>".$bill2['children'][$childNum]['depassementStr']."</td>
                             <td>&nbsp;-</td>
 						</tr>";
 				}
@@ -141,9 +141,9 @@
 			?>
 				<tr>
 					<td>Total</td>
-					<td><?php echo $bill['restToPay2'] ?></td>
-					<td><?php echo $bill['sum']['resa'] ?></td>
-					<td><?php echo $bill['sum']['depassement'] ?></td>
+					<td><?php echo $bill2['restToPay2'] ?></td>
+					<td><?php echo $bill2['sum']['resa'] ?></td>
+					<td><?php echo $bill2['sum']['depassement'] ?></td>
 					<td><b><?php echo $bill['sum']['total'] ?></b></td>
 				</tr>
 		</table>

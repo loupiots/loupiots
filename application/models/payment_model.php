@@ -133,7 +133,7 @@ class Payment_model extends CI_Model {
 				$total += $cost['sum']['total'];
 			}
 		}
-		return null;
+		return array('debt' => 0, 'total' => 0, 'monthlyDebt' => null);;
 	}
 
 	

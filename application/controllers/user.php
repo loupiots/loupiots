@@ -149,15 +149,18 @@ class user extends CI_Controller {
 		
 		$data['usersOption'] = $this->User_model->get_option_users();
 		$data['bill'] = $this->Resa_model->getResaSummary($year, $month, $data['userId']);
+		if (!$data['bill']) $data['bill']= array();
 		$data['bill']['restToPay'] = $this->Payment_model->getLastValidDebt($data['userId'], $prevYear, $prevMonth)["total"];
 
 		// print_r($data['bill']['restToPay']);
 		$data['bill']['sum']['total'] = $data['bill']['sum']['resa'] + $data['bill']['sum']['depassement'] + $data['bill']['restToPay'];
 		
-		$data['bill'] = $this->Resa_model->getResaSummary($prevYear, $prevMonth, $data['userId']); 	
-		$data['bill']['restToPay2'] = $this->Payment_model->getLastValidDebt($data['userId'], $prevYear2, $prevMonth2)["total"];
+		$data['bill2'] = $this->Resa_model->getResaSummary($prevYear, $prevMonth, $data['userId']);
+		if (!$data['bill2']) $data['bill2']= array();
 
-		$data['bill']['sum']['total'] = $data['bill']['sum']['resa'] + $data['bill']['sum']['depassement'] + $data['bill']['restToPay2'];
+		$data['bill2']['restToPay2'] = $this->Payment_model->getLastValidDebt($data['userId'], $prevYear2, $prevMonth2)["total"];
+
+		$data['bill2']['sum']['total'] = $data['bill2']['sum']['resa'] + $data['bill2']['sum']['depassement'] + $data['bill2']['restToPay2'];
 
 		//Data for facture and payment
 		$data['payment'] = $this->Payment_model->get_payment_where(array('user_id' => $data['userId'], 'YEAR(month_paided)' => $year, 'MONTH(month_paided)' => $month ));

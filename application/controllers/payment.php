@@ -136,9 +136,9 @@ class payment extends CI_Controller {
 			    list($year, $month, $day) = explode("-", $cost['month_paided']);
 			    $bill = $this->Resa_model->getResaSummary($year, $month, $payment['user_id']);
 			    //Get month paid debt
-			    $DBcost = $this->Payment_model->getLastValidDebt($payment["user_id"], $year, $month);
+			    $DBCost = $this->Payment_model->getLastValidDebt($payment["user_id"], $year, $month);
 			    if($DBCost) {
-			        $payment["debt"] = round(($DBcost["debt"] + $bill['sum']['total'] - $payment["amount"]),2);
+			        $payment["debt"] = round(($DBCost["debt"] + $bill['sum']['total'] - $payment["amount"]),2);
 			    } else {
 			        $payment["debt"] = round(($bill['sum']['total']  - $payment["amount"]),2);
 			    }
@@ -149,9 +149,9 @@ class payment extends CI_Controller {
 			    list($year, $month, $day) = explode("-", $payment['month_paided']);
 			    $bill = $this->Resa_model->getResaSummary($year, $month, $payment['user_id']);
 			    //Get current month debt
-			    $DBcost = $this->Payment_model->getLastValidDebt($payment["user_id"], $year, $month);
+			    $DBCost = $this->Payment_model->getLastValidDebt($payment["user_id"], $year, $month);
 			    if($DBCost) {
-			        $payment["debt"]  = round(($DBcost["debt"] + $bill['sum']['total'] + $payment["amount"]),2);
+			        $payment["debt"]  = round(($DBCost["debt"] + $bill['sum']['total'] + $payment["amount"]),2);
 			    }
 			}
 			$this->Payment_model->update($paymentId, $payment);
@@ -213,7 +213,7 @@ class payment extends CI_Controller {
 			$data['costTotal'][$userId]['debtPrev'] = $this->Payment_model->getLastValidDebt($userId, $prevYear, $prevMonth)['total'];
 
 		    $DBCost = current($this->Cost_model->get_cost_where(array('user_id' => $userId, 'YEAR(month_paided)' => $year, 'MONTH(month_paided)' => $month )));
-			$data['costTotal'][$userId]['debt'] = $this->Payment_model->getLastValidDebt($userId, $year, $month);
+			$data['costTotal'][$userId]['debt'] = $this->Payment_model->getLastValidDebt($userId, $year, $month)['total'];
 		    
 		    $where = array('user_id'=>$userId, 'YEAR(month_paided)' => $year, 'MONTH(month_paided)' => $month);
 		    $data["payments"][$userId] = $this->Payment_model->get_payment_where($where);
