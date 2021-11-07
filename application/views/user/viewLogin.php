@@ -3,7 +3,7 @@
 </div>
 
 <?php
-/*
+
 $lastCloseFileName = "lastVisit.txt";
 if (!file_exists($lastCloseFileName)) {
 	touch($lastCloseFileName);
@@ -32,7 +32,7 @@ if ($now > $nextCloseDate) {
 }
 
 //echo "check balance closing</br>";
-
+/*
 $lastBalanceFileName = "lastBalance.txt";
 if (!file_exists($lastBalanceFileName)) {
     touch($lastBalanceFileName);
