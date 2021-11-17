@@ -137,11 +137,26 @@ class payment extends CI_Controller {
 			    $bill = $this->Resa_model->getResaSummary($year, $month, $payment['user_id']);
 			    //Get month paid debt
 			    $DBCost = $this->Payment_model->getLastValidDebt($payment["user_id"], $year, $month);
+				//print_r($DBCost);
 			    if($DBCost) {
-			        $payment["debt"] = round(($DBCost["debt"] + $bill['sum']['total'] - $payment["amount"]),2);
+			        $payment["debt"] = round(($DBCost["debt"] + $DBCost['total'] - $payment["amount"]),2);
+					/*print_r($DBCost["debt"]);
+					print_r("+");
+					print_r($DBCost['total']);
+					print_r("-");
+					print_r($payment["amount"]);*/
+					
 			    } else {
 			        $payment["debt"] = round(($bill['sum']['total']  - $payment["amount"]),2);
+					/*print_r("previous cost not found");
+					print_r($bill['sum']['total']);
+					print_r("-");
+					print_r($payment["amount"]);*/
 			    }
+				/*
+				print_r("=");
+				print_r($payment["debt"]);
+				//exit();*/
 			}
 			if ($_POST['status']==4 && $_POST['previousStatus']==3 ) {     //annulation
 			    //modifier le debit du mois de paiment

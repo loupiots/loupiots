@@ -97,7 +97,7 @@
 					<td><?php echo $bill['restToPay'] ?></td>
 					<td><div class='cost'></div></td>
 					<td><div class='totalDepassement'></div></td>
-					<td><b><div class='total'></div></b></td>
+					<td><b><?php echo $bill['sum']['total'] ?></b></td>
 				</tr>
 		</table>
 
@@ -144,7 +144,7 @@
 					<td><?php echo $bill2['restToPay2'] ?></td>
 					<td><?php echo $bill2['sum']['resa'] ?></td>
 					<td><?php echo $bill2['sum']['depassement'] ?></td>
-					<td><b><?php echo $bill['sum']['total'] ?></b></td>
+					<td><b><?php echo $bill2['sum']['total'] ?></b></td>
 				</tr>
 		</table>
 		<i>Le restant du ne prend pas en compte les paiements non validés</i>
