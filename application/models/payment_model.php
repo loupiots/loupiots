@@ -122,15 +122,15 @@ class Payment_model extends CI_Model {
 			if ($payment) {
 				//print_r($payment);
 				$total+=$payment[0]["debt"];
-				$ret=array('debt' => $payment[0]["debt"], 'total' => $total, 'monthlyDebt' => $monthlyDebt);
+				$ret=array('debt' => round($payment[0]["debt"],2), 'total' => round($total,2), 'monthlyDebt' => $monthlyDebt);
 				//print_r($ret);
 				return $ret;
 			} else {
 				$cost = $this->Resa_model->getResaSummary($curYear, $curMonth, $userId);
 				//print_r($i);
 				//print_r($cost['sum']);
-				$monthlyDebt[] = $cost['sum']['total'];
-				$total += $cost['sum']['total'];
+				$monthlyDebt[] = round($cost['sum']['total'],2);
+				$total += round($cost['sum']['total'],2);
 			}
 		}
 		return array('debt' => 0, 'total' => 0, 'monthlyDebt' => null);;

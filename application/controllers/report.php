@@ -340,7 +340,7 @@ class report extends CI_Controller {
             $prevYear = date("Y", $prevDate);
 			$data['dates'][$i]['monthlyStatus']['debtPrev'] = $this->Payment_model->getLastValidDebt($data['userId'], $prevYear, $prevMonth)["total"];
             
-            $data['dates'][$i]['monthlyStatus']['totalDu'] = $data['dates'][$i]['monthlyStatus']['sum']['total'] + $data['dates'][$i]['monthlyStatus']['debtPrev'];
+            $data['dates'][$i]['monthlyStatus']['totalDu'] = round($data['dates'][$i]['monthlyStatus']['sum']['total'] + $data['dates'][$i]['monthlyStatus']['debtPrev'],2);
             
 			$data['dates'][$i]['monthlyStatus']['debt'] = $this->Payment_model->getLastValidDebt($data['userId'], $curYear, $curMonth)["total"];;
         }
