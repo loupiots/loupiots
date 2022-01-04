@@ -1,59 +1,93 @@
-# loupiots
+# CodeIgniter 4 Development
 
-"Les Loupiots" est une garderie peri-scolaire associative. 
+[![Build Status](https://github.com/codeigniter4/CodeIgniter4/workflows/PHPUnit/badge.svg)](https://github.com/codeigniter4/CodeIgniter4/actions?query=workflow%3A%22PHPUnit%22)
+[![Coverage Status](https://coveralls.io/repos/github/codeigniter4/CodeIgniter4/badge.svg?branch=develop)](https://coveralls.io/github/codeigniter4/CodeIgniter4?branch=develop)
+[![Downloads](https://poser.pugx.org/codeigniter4/framework/downloads)](https://packagist.org/packages/codeigniter4/framework)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/codeigniter4/CodeIgniter4)](https://packagist.org/packages/codeigniter4/framework)
+[![GitHub stars](https://img.shields.io/github/stars/codeigniter4/CodeIgniter4)](https://packagist.org/packages/codeigniter4/framework)
+[![GitHub license](https://img.shields.io/github/license/codeigniter4/CodeIgniter4)](https://github.com/codeigniter4/CodeIgniter4/blob/develop/LICENSE)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/codeigniter4/CodeIgniter4/pulls)
+<br>
 
-Ce software permet la creation du site permettant aux parents d'inscrire leurs enfants aux differents crenaux de la journee.  
-Le cout est mis a jour en direct et les parents peuvent enregistrer leurs paiments.  
-L'administrateur peut suivre l'evolution des inscription, valider la reception des paiment et gerer le caladrier.  
-Eventuelement, l'administrateur a egalement la possibilite de rajouter des crenaux pour les retards ou les imprevus.
+## What is CodeIgniter?
 
-L'animateur a également des droits étendus pour les paiements et les inscriptions. Il peut surtout imprimer les feuilles d'appel permettant de gérer les enfants à la sortie de l'école.
+CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
+More information can be found at the [official site](http://codeigniter.com).
+
+This repository holds the source code for CodeIgniter 4 only.
+Version 4 is a complete rewrite to bring the quality and the code into a more modern version,
+while still keeping as many of the things intact that has made people love the framework over the years.
+
+More information about the plans for version 4 can be found in [the announcement](http://forum.codeigniter.com/thread-62615.html) on the forums.
+
+### Documentation
+
+The [User Guide](https://codeigniter4.github.io/userguide/) is the primary documentation for CodeIgniter 4.
+
+The current **in-progress** User Guide can be found [here](https://codeigniter4.github.io/CodeIgniter4/).
+As with the rest of the framework, it is a work in progress, and will see changes over time to structure, explanations, etc.
+
+You might also be interested in the [API documentation](https://codeigniter4.github.io/api/) for the framework components.
+
+## Important Change with index.php
+
+index.php is no longer in the root of the project! It has been moved inside the *public* folder,
+for better security and separation of components.
+
+This means that you should configure your web server to "point" to your project's *public* folder, and
+not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
+framework are exposed.
+
+**Please** read the user guide for a better explanation of how CI4 works!
+
+## Repository Management
+
+CodeIgniter is developed completely on a volunteer basis. As such, please give up to 7 days
+for your issues to be reviewed. If you haven't heard from one of the team in that time period,
+feel free to leave a comment on the issue so that it gets brought back to our attention.
+
+We use GitHub issues to track **BUGS** and to track approved **DEVELOPMENT** work packages.
+We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
+FEATURE REQUESTS.
+
+If you raise an issue here that pertains to support or a feature request, it will
+be closed! If you are not sure if you have found a bug, raise a thread on the forum first -
+someone else may have encountered the same thing.
+
+Before raising a new GitHub issue, please check that your bug hasn't already
+been reported or fixed.
+
+We use pull requests (PRs) for CONTRIBUTIONS to the repository.
+We are looking for contributions that address one of the reported bugs or
+approved work packages.
+
+Do not use a PR as a form of feature request.
+Unsolicited contributions will only be considered if they fit nicely
+into the framework roadmap.
+Remember that some components that were part of CodeIgniter 3 are being moved
+to optional packages, with their own repository.
+
+## Contributing
+
+We **are** accepting contributions from the community!
+
+Please read the [*Contributing to CodeIgniter*](https://github.com/codeigniter4/CodeIgniter4/blob/develop/contributing/README.md).
+
+## Server Requirements
+
+PHP version 7.3 or higher is required, with the following extensions installed:
 
 
-## Paiement
+- [intl](http://php.net/manual/en/intl.requirements.php)
+- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+- [mbstring](http://php.net/manual/en/mbstring.installation.php)
 
-Le paiement apparait sur chaque page du calendrier. Dans la section Réglement de la page.  
-Il fait face à la section Facture du mois précédent, donc logiquement, les paiement sont par défaut affecté au mois précédent.  
-Le calcul de la facture est donc décalée d'un mois. C'est à dire que sur la page du mois *Novembre*, apparait la facture pour le mois *d'Octobre*.
+Additionally, make sure that the following extensions are enabled in your PHP:
 
-S'il n'y a pas de paiement tous les mois, les réservations sont reportées sur le mois suivant dans la rubrique du *restant du*.
+- json (enabled by default - don't turn it off)
+- xml (enabled by default - don't turn it off)
+- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php)
 
-### Cycle de vie d'un paiement
-1. **En attente de réception** Après cération, statut par défaut.
-2. **Recu** En cas de paiement par chèque ou espece, l'animateur (ou l'administrateur) qui recoit physiquement le paiement change acquite la reception.
-3. **Validé** Le comptable (administrateur) valide le paiement (paiement physique conforme à la déclaration).
-4. **Annulé** Le comptable (administrateur) annule le paiement si il n'y a pas eu de paiement physique corespondant.
-5. **Comptabilisé** Le 6 de chaque mois, le système comptabilise automatiquement les paiements validés. Ils servent donc au calcul du restant du.
+## Running CodeIgniter Tests
 
-### Calcul du montant du
-Le montant du pour le mois ets la somme du  
-- Restant du du mois précedent  
-- La somme de toutes les réservations du mois facturé (standard + déplacement)  
-C'est pour tenir compte des dépacements que les factures sont éditées sur le mois précédent et non sur le mois courant.
-
-### Calcul du restant du
-Le restant du du mois précédent est calculé le 6 de chaque mois.
-Il prend en compte tous les paiements **validés** au cours du mois quelque soit la date de création du paiement ou le mois payé.  
-Ce restant du sert alors de base pour établir la facture du mois suivant.  
-
-### Ajout/modification de paiement
-- **Par l'utilisateur:**  
-	Dans la page de réservation du mois en cours, clicker sur *ajouter paiement*
-	Le paiement est alors par défaut daté du mois précedent ie celui corespondant à la facture affiché dans la page.
-	L'utilisateur a la possibilité de dater la facture au mois courant.
-- **Par L'animateur:**  
-	L'animateur doit cocher que le paiement est recu.
-	- A partir de la page d'un mois passé ou il y a deja un paiement, clicker sur *modifier* ou *ajouter paiement*
-	- A partir de  la page Administration -> Facturation, choisir le bon mois, puis la famille et clicker sur *modifier* ou *ajouter paiement*
-	L'animateur peut aussi créer un nouveau paiement
-- **Par l'administrateur:**  
-	L'administrateur doit valider un paiement.	
-	Les acces sont similaires à ceux de l'animateur.  
-La modification d'un paiement permet de changer le montant, le type de paiement et le statut.
-
-	
-
-
-
-
-	
+Information on running the CodeIgniter test suite can be found in the [README.md](tests/README.md) file in the tests directory.
