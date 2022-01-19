@@ -120,9 +120,10 @@ class Payment_model extends CI_Model {
 			$where = array('user_id'=>$userId, 'status' => 3, 'YEAR(month_paided)' => $curYear, 'MONTH(month_paided)' => $curMonth);
 			$payment=$this->get_payment_where($where);
 			if ($payment) {
+				$index = count($payment)-1;
 				//print_r($payment);
-				$total+=$payment[0]["debt"];
-				$ret=array('debt' => round($payment[0]["debt"],2), 'total' => round($total,2), 'monthlyDebt' => $monthlyDebt);
+				$total+=$payment[$index]["debt"];
+				$ret=array('debt' => round($payment[$index]["debt"],2), 'total' => round($total,2), 'monthlyDebt' => $monthlyDebt);
 				//print_r($ret);
 				return $ret;
 			} else {
