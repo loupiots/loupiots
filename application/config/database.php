@@ -104,6 +104,7 @@ $db['default'] = array(
 );
 // prod
 // on free PROD
+/*
 $db['production']['hostname'] = 'laurent.damon.sql.free.fr';
 $db['production']['username'] = 'laurent.damon';
 $db['production']['password'] = '3dd6lp8';
@@ -122,6 +123,28 @@ $db['production']['stricton'] = FALSE;
 
 $db['production']['char_set'] = "utf8";
 $db['production']['dbcollat'] = "utf8_unicode_ci";
+*/
+$db['production'] = array(
+    'dsn'   => '',
+    'hostname' => 'db5006469855.hosting-data.io',
+    'username' => 'dbu1816631',
+    'password' => 'Loupiots_lavallois_2021',
+    'database' => 'creche',
+    'dbdriver' => 'mysqli',
+    'dbprefix' => '',
+    'pconnect' => FALSE,
+    'db_debug' => (ENVIRONMENT !== 'production'),
+    'cache_on' => FALSE,
+    'cachedir' => '',
+    'char_set' => 'utf8',
+    'dbcollat' => 'utf8_general_ci',
+    'swap_pre' => '',
+    'encrypt' => FALSE,
+    'compress' => FALSE,
+    'stricton' => FALSE,
+    'failover' => array(),
+    'save_queries' => TRUE
+);
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */
