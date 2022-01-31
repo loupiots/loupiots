@@ -49,6 +49,7 @@ $active_group = 'default';
 $active_record = TRUE;
 
 // localhost
+/*
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
 $db['default']['password'] = '';
@@ -79,7 +80,28 @@ $db['default']['stricton'] = FALSE;
 
 $db['default']['char_set'] = "utf8";
 $db['default']['dbcollat'] = "utf8_unicode_ci";
-
+*/
+$db['default'] = array(
+    'dsn'   => '',
+    'hostname' => 'localhost',
+    'username' => 'root',
+    'password' => '',
+    'database' => 'creche',
+    'dbdriver' => 'mysqli',
+    'dbprefix' => '',
+    'pconnect' => FALSE,
+    'db_debug' => (ENVIRONMENT !== 'production'),
+    'cache_on' => FALSE,
+    'cachedir' => '',
+    'char_set' => 'utf8',
+    'dbcollat' => 'utf8_general_ci',
+    'swap_pre' => '',
+    'encrypt' => FALSE,
+    'compress' => FALSE,
+    'stricton' => FALSE,
+    'failover' => array(),
+    'save_queries' => TRUE
+);
 // prod
 // on free PROD
 $db['production']['hostname'] = 'laurent.damon.sql.free.fr';
