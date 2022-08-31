@@ -15,7 +15,7 @@
 |
 */
 //$config['base_url']	= 'http://laurent.damon.free.fr/creche/';   //config free
-$config['base_url']	= '';											//localhost
+$config['base_url']	= 'https://loupiots-lavallois.fr/';											//localhost
 //$config['base_url']	= 'http://loupiots.lavallois.free.fr/';   //config free PROD
 /*
 |--------------------------------------------------------------------------
