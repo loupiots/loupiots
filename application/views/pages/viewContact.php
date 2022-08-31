@@ -8,7 +8,7 @@ Mairie de Laval<br>
 38190 Laval<br>
 <br>
 Garderie : 06 76 20 44 83<br>
-President : Xavier Dupuis<br>
+President : Karim Pellissier<br>
 Email: inscription@loupiots-lavallois.org<br>
 <br>
 http://loupiots.lavallois.free.fr/<br>
