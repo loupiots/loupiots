@@ -15,7 +15,7 @@ class payment extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		
-		$this->payment_types = array('Virement' => 'Virement', 'Cheque' => 'Cheque', 'Especes' => 'Especes');
+		$this->payment_types = array('Virement' => 'Virement', 'Cheque' => 'Cheque', 'Especes' => 'Especes', 'Remboursement' => 'Remboursement');
 		$this->banks = $this->Bank_model->get_option_banks();
 		$this->payment_status = array(1 => 'En attente de r&eacute;ception');
 		if ($this->session->userdata('privilege') >=2 ) {
